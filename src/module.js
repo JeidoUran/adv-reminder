@@ -84,6 +84,8 @@ Hooks.once("DAE.setupComplete", () => {
   fields.push("flags.adv-reminder.message.ability.save.all");
   fields.push("flags.adv-reminder.message.skill.all");
   fields.push("flags.adv-reminder.message.deathSave");
+  fields.push("flags.adv-reminder.message.accuracy");
+  fields.push("flags.adv-reminder.grants.message.accuracy");
   fields.push("flags.adv-reminder.message.damage.all");
 
   const actionTypes = game.system.id === "sw5e" ? ["mwak", "rwak", "mpak", "rpak"] : ["mwak", "rwak", "msak", "rsak"];

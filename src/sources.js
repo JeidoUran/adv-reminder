@@ -7,6 +7,7 @@ import {
   CriticalReminderV2,
   DeathSaveReminder,
   SkillReminder,
+  AccuracyReminder,
 } from "./reminders.js";
 import { debug } from "./util.js";
 
@@ -138,6 +139,12 @@ export class AbilityCheckSource extends SourceMixin(AbilityCheckReminder) {}
 export class SkillSource extends SourceMixin(SkillReminder) {}
 
 export class DeathSaveSource extends SourceMixin(DeathSaveReminder) {}
+
+export class AccuracySource extends SourceMixin(AccuracyReminder) {
+  get _prefix() {
+    return "options";
+  }
+}
 
 export class CriticalSource extends SourceMixin(CriticalReminder) {
   _adjustRange(distanceFn, grantsCriticalRange) {

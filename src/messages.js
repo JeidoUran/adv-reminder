@@ -206,3 +206,36 @@ export class DamageMessageV2 extends DamageMessage {
     return "options";
   }
 }
+
+export class AccuracyMessage extends BaseMessage {
+  constructor(actor, targetActor, item) {
+    super(actor, targetActor);
+
+    /** @type {string} */
+    this.actionType = item.system.actionType;
+  }
+
+  /** @override */
+  get messageKeys() {
+    return super.messageKeys.concat(
+      "flags.adv-reminder.message.accuracy"
+    );
+  }
+
+  /** @override */
+  get targetKeys() {
+    return [
+      "flags.adv-reminder.grants.message.accuracy",
+    ];
+  }
+}
+
+export class AccuracyMessageV2 extends AccuracyMessage {
+  constructor(actor, targetActor, activity) {
+    super(actor, targetActor, { system: { actionType: activity.actionType } });
+  }
+
+  get prefix() {
+    return "options";
+  }
+}

@@ -420,3 +420,19 @@ export class CriticalReminderV2 extends CriticalReminder {
     super(actor, targetActor, { system: { actionType: activity.actionType } }, distanceFn);
   }
 }
+
+export class AccuracyReminder extends AbilityBaseReminder {
+  constructor(actor) {
+    super(actor, null);
+  }
+
+  /** @override */
+  get advantageKeys() {
+    return ["advantage.accuracy"];
+  }
+
+  /** @override */
+  get disadvantageKeys() {
+    return ["disadvantage.accuracy"];
+  }
+}

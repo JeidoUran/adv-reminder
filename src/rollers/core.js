@@ -7,6 +7,7 @@ import {
   DamageMessageV2,
   DeathSaveMessage,
   SkillMessage,
+  AccuracyMessageV2,
 } from "../messages.js";
 import {
   AttackReminderV2,
@@ -15,6 +16,7 @@ import {
   CriticalReminderV2,
   DeathSaveReminder,
   SkillReminder,
+  AccuracyReminder,
 } from "../reminders.js";
 import {
   AbilityCheckSource,
@@ -24,6 +26,7 @@ import {
   CriticalSourceV2,
   DeathSaveSource,
   SkillSource,
+  AccuracySource,
 } from "../sources.js";
 import { showSources } from "../settings.js";
 import { debug, getDistanceToTargetFn, getTarget } from "../util.js";
@@ -55,6 +58,7 @@ export default class CoreRollerHooks {
     Hooks.on("dnd5e.preRollToolCheck", this.preRollToolCheck.bind(this));
     Hooks.on("dnd5e.preRollDeathSave", this.preRollDeathSave.bind(this));
     Hooks.on("dnd5e.preRollDamageV2", this.preRollDamageV2.bind(this));
+    Hooks.on("dnd5e.preRollV2", this.preRollV2.bind(this));
   }
 
   /**
@@ -157,6 +161,20 @@ export default class CoreRollerHooks {
     config.rolls.forEach(roll => reminder.updateOptions(roll.options, "isCritical"));
   }
 
+  preRollV2(config, dialog, message) {
+    debug("preRollV2 hook called");
+
+    if (this.isFastForwarding(config, dialog)) return;
+    const target = getTarget();
+    const distanceFn = getDistanceToTargetFn(message.data.speaker);
+    const activity = config.subject;
+
+    if (activity.identifier != "accuracy") return;
+
+    new AccuracyMessageV2(activity.actor, target, activity).addMessage(dialog);
+    if (showSources) new AccuracySource(activity.actor).updateOptions(config);
+    new AccuracyReminder(activity.actor).updateOptions(config);
+  }
   /**
    * Check if we should fast-forward the roll by checking the fastForward flag
    * and if one of the modifier keys was pressed.
