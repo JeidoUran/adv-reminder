@@ -56,7 +56,7 @@ const SourceMixin = (superclass) =>
     }
 
     get _prefix() {
-      return "dialogOptions";
+      return "options";
     }
 
     _accumulator() {
